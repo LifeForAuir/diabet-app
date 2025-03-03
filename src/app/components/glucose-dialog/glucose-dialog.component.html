@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Добавить замер сахара</h2>
+<mat-dialog-content>
+  <form [formGroup]="glucoseForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Уровень сахара</mat-label>
+      <input matInput type="number" step="0.1" formControlName="value">
+      <mat-hint>ммоль/л</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Дата и время</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="datetime">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Отмена</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!glucoseForm.valid">
+    Сохранить
+  </button>
+</mat-dialog-actions> 

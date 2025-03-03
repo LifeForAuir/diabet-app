@@ -1,0 +1,58 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  button {
+    margin-left: 8px;
+    
+    mat-icon {
+      margin-right: 4px;
+    }
+  }
+
+  .active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.content {
+  margin-top: 64px; // высота toolbar
+  padding: 20px;
+  overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  mat-toolbar {
+    padding: 0 8px;
+    
+    span:not(.spacer) {
+      font-size: 16px;
+    }
+
+    button {
+      min-width: unset;
+      padding: 0 8px;
+      
+      span {
+        display: none;
+      }
+      
+      mat-icon {
+        margin: 0;
+      }
+    }
+  }
+} 

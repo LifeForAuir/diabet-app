@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Добавить приём пищи</h2>
+<mat-dialog-content>
+  <form [formGroup]="mealForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Описание</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Белки</mat-label>
+      <input matInput type="number" formControlName="proteins">
+      <mat-hint>грамм</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Жиры</mat-label>
+      <input matInput type="number" formControlName="fats">
+      <mat-hint>грамм</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Углеводы</mat-label>
+      <input matInput type="number" formControlName="carbohydrates">
+      <mat-hint>грамм</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Дата и время</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="datetime">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Отмена</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!mealForm.valid">
+    Сохранить
+  </button>
+</mat-dialog-actions> 

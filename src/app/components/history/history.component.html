@@ -1,0 +1,67 @@
+<div class="history-container">
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="openGlucoseDialog()">
+      <mat-icon>add</mat-icon>
+      Замер сахара
+    </button>
+    <button mat-raised-button color="primary" (click)="openMealDialog()">
+      <mat-icon>restaurant</mat-icon>
+      Приём пищи
+    </button>
+    <button mat-raised-button color="primary" (click)="openInsulinDialog()">
+      <mat-icon>medication</mat-icon>
+      Инсулин
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>История замеров сахара</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngFor="let record of glucoseRecords">
+          <span>{{ record.value }} ммоль/л</span>
+          <span class="spacer"></span>
+          <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>История приёмов пищи</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngFor="let record of mealRecords">
+          <div class="meal-record">
+            <div>{{ record.description }}</div>
+            <div class="meal-details">
+              Б: {{ record.proteins }}г, Ж: {{ record.fats }}г, У: {{ record.carbohydrates }}г
+              ({{ record.breadUnits }} ХЕ)
+            </div>
+          </div>
+          <span class="spacer"></span>
+          <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>История инъекций инсулина</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngFor="let record of insulinRecords">
+          <span>{{ record.units }} ЕД</span>
+          <span class="spacer"></span>
+          <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div> 
