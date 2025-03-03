@@ -1,28 +1,102 @@
 <h2 mat-dialog-title>Добавить приём пищи</h2>
 <mat-dialog-content>
   <form [formGroup]="mealForm">
-    <mat-form-field appearance="fill">
-      <mat-label>Описание</mat-label>
-      <textarea matInput formControlName="description"></textarea>
-    </mat-form-field>
+    <mat-tab-group>
+      <mat-tab label="Блюда">
+        <div class="dishes-container">
+          <div class="dish-selection">
+            <mat-form-field appearance="fill">
+              <mat-label>Вес (г)</mat-label>
+              <input matInput type="number" formControlName="dishWeight" min="1">
+            </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Белки</mat-label>
-      <input matInput type="number" formControlName="proteins">
-      <mat-hint>грамм</mat-hint>
-    </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Выберите блюдо</mat-label>
+              <mat-select (selectionChange)="onDishSelected($event)">
+                <mat-option *ngFor="let dish of savedDishes" [value]="dish">
+                  {{dish.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+          <mat-chip-set>
+            <mat-chip *ngFor="let dish of selectedDishes" (removed)="removeDish(dish)">
+              <div class="dish-chip">
+                <span>{{dish.name}}</span>
+                <mat-form-field class="weight-input">
+                  <input matInput type="number" [value]="dish.weight" 
+                         (change)="updateDishWeight(dish, $event)" min="1">
+                  <span matSuffix>г</span>
+                </mat-form-field>
+                <div class="nutrient-info">
+                  (Б:{{nutritionService.calculateDishNutrients(dish).proteins}}
+                  Ж:{{nutritionService.calculateDishNutrients(dish).fats}}
+                  У:{{nutritionService.calculateDishNutrients(dish).carbs}})
+                </div>
+              </div>
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-tab>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Жиры</mat-label>
-      <input matInput type="number" formControlName="fats">
-      <mat-hint>грамм</mat-hint>
-    </mat-form-field>
+      <mat-tab label="Ингредиенты">
+        <div class="ingredients-container">
+          <div class="ingredient-selection">
+            <mat-form-field appearance="fill">
+              <mat-label>Вес (г)</mat-label>
+              <input matInput type="number" formControlName="ingredientWeight" min="1">
+            </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Углеводы</mat-label>
-      <input matInput type="number" formControlName="carbohydrates">
-      <mat-hint>грамм</mat-hint>
-    </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Выберите ингредиент</mat-label>
+              <mat-select (selectionChange)="onIngredientSelected($event)">
+                <mat-option *ngFor="let ingredient of savedIngredients" [value]="ingredient">
+                  {{ingredient.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="selected-ingredients">
+            <mat-chip-set>
+              <mat-chip *ngFor="let ingredient of selectedIngredients" (removed)="removeIngredient(ingredient)">
+                <div class="ingredient-chip">
+                  <span>{{ingredient.name}}</span>
+                  <mat-form-field class="weight-input">
+                    <input matInput type="number" [value]="ingredient.weight" 
+                           (change)="updateIngredientWeight(ingredient, $event)" min="1">
+                    <span matSuffix>г</span>
+                  </mat-form-field>
+                  <div class="nutrient-info">
+                    (Б:{{nutritionService.calculateIngredientNutrients(ingredient).proteins}}
+                    Ж:{{nutritionService.calculateIngredientNutrients(ingredient).fats}}
+                    У:{{nutritionService.calculateIngredientNutrients(ingredient).carbs}})
+                  </div>
+                </div>
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <div class="totals">
+      <h3>Итого:</h3>
+      <ng-container *ngIf="totals$ | async as totals">
+        <p>Общая масса: {{totals.weight}}г</p>
+        <p>Белки: {{totals.proteins}}г</p>
+        <p>Жиры: {{totals.fats}}г</p>
+        <p>Углеводы: {{totals.carbs}}г</p>
+        <p>ХЕ: {{totals.breadUnits}}</p>
+      </ng-container>
+    </div>
 
     <mat-form-field appearance="fill">
       <mat-label>Дата и время</mat-label>
@@ -32,9 +106,11 @@
     </mat-form-field>
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Отмена</button>
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!mealForm.valid">
+  <button mat-raised-button color="primary" (click)="onSubmit()" 
+          [disabled]="!mealForm.valid || (!selectedDishes.length && !selectedIngredients.length)">
     Сохранить
   </button>
 </mat-dialog-actions> 

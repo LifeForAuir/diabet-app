@@ -47,9 +47,22 @@
         <mat-list-item *ngFor="let record of mealRecords">
           <div class="meal-row">
             <div class="meal-info">
-              <div class="description">{{ record.description }}</div>
+              <div class="dishes" *ngIf="record.dishes.length > 0">
+                <strong>Блюда:</strong>
+                <span *ngFor="let dish of record.dishes; last as isLast">
+                  {{ dish.name }}{{ !isLast ? ', ' : '' }}
+                </span>
+              </div>
+              <div class="ingredients" *ngIf="record.ingredients.length > 0">
+                <strong>Ингредиенты:</strong>
+                <span *ngFor="let ingredient of record.ingredients; last as isLast">
+                  {{ ingredient.name }}{{ !isLast ? ', ' : '' }}
+                </span>
+              </div>
               <div class="meal-details">
-                Б: {{ record.proteins }}г, Ж: {{ record.fats }}г, У: {{ record.carbohydrates }}г
+                Б: {{ record.totalProteins }}г, 
+                Ж: {{ record.totalFats }}г, 
+                У: {{ record.totalCarbohydrates }}г
                 ({{ record.breadUnits }} ХЕ)
               </div>
             </div>

@@ -1,6 +1,9 @@
 // Основной контейнер с ограничением ширины и центрированием
 .history-container {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   max-width: 800px;
   margin: 0 auto;
 }
@@ -8,7 +11,7 @@
 // Контейнер для кнопок действий
 .actions {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   margin-bottom: 20px;
   flex-wrap: wrap; // Позволяет кнопкам переноситься на новую строку
 
@@ -45,8 +48,8 @@ mat-list-item {
 
 // Стили для отображения даты
 .date {
-  color: rgba(0, 0, 0, 0.54); // Серый цвет для второстепенной информации
-  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.9em;
   white-space: nowrap; // Предотвращает перенос даты
 }
 
@@ -64,11 +67,11 @@ mat-list-item {
 
 // Стили для строки с значением и датой (сахар и инсулин)
 .record-row {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  gap: 16px;
+  padding: 8px 0;
 
   .value {
     font-weight: 500; // Полужирный шрифт для значений
@@ -77,19 +80,27 @@ mat-list-item {
 
 // Стили для строки с информацией о приеме пищи
 .meal-row {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  gap: 16px;
+  align-items: center;
+  padding: 8px 0;
 
   .meal-info {
     flex: 1;
-    min-width: 0; // Предотвращает переполнение
-    
-    .description {
-      font-weight: 500;
+    padding-right: 16px;
+
+    .dishes, .ingredients {
       margin-bottom: 4px;
+      
+      strong {
+        margin-right: 8px;
+      }
+    }
+
+    .meal-details {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 0.9em;
     }
   }
 }

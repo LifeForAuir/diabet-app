@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { User, GlucoseRecord, MealRecord, InsulinRecord } from '../interfaces/user.interface';
+import { User, GlucoseRecord, MealRecord, InsulinRecord, Dish, Ingredient } from '../interfaces/user.interface';
+import { MOCK_DISHES, MOCK_INGREDIENTS, MOCK_MEAL_RECORDS } from '../mocks/data.mock';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiabetesService {
   private mockUser: User = {
-    id: 1,
+    id: '550e8400-e29b-41d4-a716-446655440000',
     firstName: 'Иван',
     lastName: 'Петров',
     birthDate: new Date('1990-01-01'),
@@ -15,24 +16,16 @@ export class DiabetesService {
   };
 
   private mockGlucoseRecords: GlucoseRecord[] = [
-    { id: 1, value: 5.5, datetime: new Date() },
-    { id: 2, value: 6.2, datetime: new Date(Date.now() - 86400000) }
+    { id: '550e8400-e29b-41d4-a716-446655440001', value: 5.5, datetime: new Date() },
+    { id: '550e8400-e29b-41d4-a716-446655440002', value: 6.2, datetime: new Date(Date.now() - 86400000) }
   ];
 
-  private mockMealRecords: MealRecord[] = [
-    {
-      id: 1,
-      description: 'Овсянка с фруктами',
-      proteins: 10,
-      fats: 5,
-      carbohydrates: 45,
-      breadUnits: 3.75,
-      datetime: new Date()
-    }
-  ];
+  private dishes: Dish[] = MOCK_DISHES;
+  private ingredients: Ingredient[] = MOCK_INGREDIENTS;
+  private mealRecords: MealRecord[] = MOCK_MEAL_RECORDS;
 
   private mockInsulinRecords: InsulinRecord[] = [
-    { id: 1, units: 5, datetime: new Date() }
+    { id: '550e8400-e29b-41d4-a716-446655440003', units: 5, datetime: new Date() }
   ];
 
   getUser(): Observable<User> {
@@ -49,18 +42,32 @@ export class DiabetesService {
   }
 
   addGlucoseRecord(record: GlucoseRecord): Observable<GlucoseRecord> {
-    const newRecord = { ...record, id: this.mockGlucoseRecords.length + 1 };
+    const newRecord = { 
+      ...record, 
+      id: crypto.randomUUID()
+    };
     this.mockGlucoseRecords.push(newRecord);
     return of(newRecord);
   }
 
+  getSavedDishes(): Observable<Dish[]> {
+    return of(this.dishes.filter(dish => dish.isSaved));
+  }
+
+  getSavedIngredients(): Observable<Ingredient[]> {
+    return of(this.ingredients.filter(ingredient => ingredient.isSaved));
+  }
+
   getMealRecords(): Observable<MealRecord[]> {
-    return of(this.mockMealRecords);
+    return of(this.mealRecords);
   }
 
   addMealRecord(record: MealRecord): Observable<MealRecord> {
-    const newRecord = { ...record, id: this.mockMealRecords.length + 1 };
-    this.mockMealRecords.push(newRecord);
+    const newRecord = {
+      ...record,
+      id: crypto.randomUUID()
+    };
+    this.mealRecords.push(newRecord);
     return of(newRecord);
   }
 
@@ -69,13 +76,16 @@ export class DiabetesService {
   }
 
   addInsulinRecord(record: InsulinRecord): Observable<InsulinRecord> {
-    const newRecord = { ...record, id: this.mockInsulinRecords.length + 1 };
+    const newRecord = { 
+      ...record, 
+      id: crypto.randomUUID()
+    };
     this.mockInsulinRecords.push(newRecord);
     return of(newRecord);
   }
 
-  calculateBreadUnits(carbohydrates: number): number {
-    return carbohydrates / 12; // 1 ХЕ = 12 грамм углеводов
+  calculateBreadUnits(carbs: number): number {
+    return Math.round((carbs / 12) * 10) / 10;
   }
 
   calculateInsulinDose(breadUnits: number): number {
