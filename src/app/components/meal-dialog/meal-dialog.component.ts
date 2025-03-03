@@ -16,6 +16,7 @@ import { NutritionService } from '../../services/nutrition.service';
 import { Dish, Ingredient, IngredientWithWeight, MealRecord, DishWithWeight } from '../../interfaces/user.interface';
 import { BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { IngredientDialogComponent } from '../ingredient-dialog/ingredient-dialog.component';
 
 interface MealTotals {
   weight: number;
@@ -149,36 +150,6 @@ export class MealDialogComponent {
     }
   }
 
-  addNewIngredient(): void {
-    const newIngredientForm = this.mealForm.get('newIngredient');
-    if (newIngredientForm?.valid) {
-      const { name, proteins, fats, carbs } = newIngredientForm.value;
-      const newIngredient = this.nutritionService.createNewIngredient(
-        name,
-        proteins,
-        fats,
-        carbs
-      );
-
-      const weight = this.mealForm.get('ingredientWeight')?.value || 100;
-      const ingredientWithWeight: IngredientWithWeight = {
-        ...newIngredient,
-        weight
-      };
-
-      this.selectedIngredients.push(ingredientWithWeight);
-      this.updateTotals();
-
-      // Сброс формы нового ингредиента
-      newIngredientForm.reset({
-        name: '',
-        proteins: 0,
-        fats: 0,
-        carbs: 0
-      });
-    }
-  }
-
   onSubmit(): void {
     if (this.mealForm.valid) {
       const currentTotals = this.totalsSubject.value;
@@ -234,5 +205,25 @@ export class MealDialogComponent {
         this.updateTotals();
       }
     }
+  }
+
+  openNewIngredientDialog(): void {
+    const dialogRef = this.dialog.open(IngredientDialogComponent, {
+      width: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.savedIngredients.push(result);
+        
+        const weight = this.mealForm.get('ingredientWeight')?.value || 100;
+        const ingredientWithWeight: IngredientWithWeight = {
+          ...result,
+          weight
+        };
+        this.selectedIngredients.push(ingredientWithWeight);
+        this.updateTotals();
+      }
+    });
   }
 } 

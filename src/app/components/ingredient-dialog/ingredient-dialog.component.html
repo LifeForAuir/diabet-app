@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Добавить новый ингредиент</h2>
+<mat-dialog-content>
+  <form [formGroup]="ingredientForm">
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Название</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
+    <div class="form-row nutrients">
+      <mat-form-field appearance="fill">
+        <mat-label>Белки</mat-label>
+        <input matInput type="number" formControlName="proteins" min="0" max="100">
+        <span matSuffix>г/100г</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Жиры</mat-label>
+        <input matInput type="number" formControlName="fats" min="0" max="100">
+        <span matSuffix>г/100г</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Углеводы</mat-label>
+        <input matInput type="number" formControlName="carbs" min="0" max="100">
+        <span matSuffix>г/100г</span>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Отмена</button>
+  <button mat-raised-button color="primary" 
+          (click)="onSubmit()" 
+          [disabled]="!ingredientForm.valid">
+    Сохранить
+  </button>
+</mat-dialog-actions> 

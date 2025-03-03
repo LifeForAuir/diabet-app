@@ -76,4 +76,9 @@ export class NutritionService {
   calculateBreadUnits(carbs: number): number {
     return Number((carbs / 12).toFixed(1));
   }
+
+  saveNewIngredient(ingredient: Ingredient): Observable<Ingredient> {
+    // TODO: Заменить на реальный HTTP запрос
+    return of({ ...ingredient, isSaved: true });
+  }
 } 
