@@ -1,65 +1,78 @@
 <div class="history-container">
+  <!-- Секция с кнопками действий -->
   <div class="actions">
+    <!-- Кнопка добавления замера сахара -->
     <button mat-raised-button color="primary" (click)="openGlucoseDialog()">
       <mat-icon>add</mat-icon>
       Замер сахара
     </button>
+    <!-- Кнопка добавления приема пищи -->
     <button mat-raised-button color="primary" (click)="openMealDialog()">
       <mat-icon>restaurant</mat-icon>
       Приём пищи
     </button>
+    <!-- Кнопка добавления инъекции инсулина -->
     <button mat-raised-button color="primary" (click)="openInsulinDialog()">
       <mat-icon>medication</mat-icon>
       Инсулин
     </button>
   </div>
 
+  <!-- Карточка с историей замеров сахара -->
   <mat-card>
     <mat-card-header>
       <mat-card-title>История замеров сахара</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-list>
+        <!-- Список замеров сахара -->
         <mat-list-item *ngFor="let record of glucoseRecords">
-          <span>{{ record.value }} ммоль/л</span>
-          <span class="spacer"></span>
-          <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+          <div class="record-row">
+            <span class="value">{{ record.value }} ммоль/л</span>
+            <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+          </div>
         </mat-list-item>
       </mat-list>
     </mat-card-content>
   </mat-card>
 
+  <!-- Карточка с историей приемов пищи -->
   <mat-card>
     <mat-card-header>
       <mat-card-title>История приёмов пищи</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-list>
+        <!-- Список приемов пищи -->
         <mat-list-item *ngFor="let record of mealRecords">
-          <div class="meal-record">
-            <div>{{ record.description }}</div>
-            <div class="meal-details">
-              Б: {{ record.proteins }}г, Ж: {{ record.fats }}г, У: {{ record.carbohydrates }}г
-              ({{ record.breadUnits }} ХЕ)
+          <div class="meal-row">
+            <div class="meal-info">
+              <div class="description">{{ record.description }}</div>
+              <div class="meal-details">
+                Б: {{ record.proteins }}г, Ж: {{ record.fats }}г, У: {{ record.carbohydrates }}г
+                ({{ record.breadUnits }} ХЕ)
+              </div>
             </div>
+            <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
           </div>
-          <span class="spacer"></span>
-          <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
         </mat-list-item>
       </mat-list>
     </mat-card-content>
   </mat-card>
 
+  <!-- Карточка с историей инъекций инсулина -->
   <mat-card>
     <mat-card-header>
       <mat-card-title>История инъекций инсулина</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-list>
+        <!-- Список инъекций инсулина -->
         <mat-list-item *ngFor="let record of insulinRecords">
-          <span>{{ record.units }} ЕД</span>
-          <span class="spacer"></span>
-          <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+          <div class="record-row">
+            <span class="value">{{ record.units }} ЕД</span>
+            <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+          </div>
         </mat-list-item>
       </mat-list>
     </mat-card-content>

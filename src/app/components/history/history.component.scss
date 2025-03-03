@@ -1,39 +1,95 @@
+// Основной контейнер с ограничением ширины и центрированием
 .history-container {
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
 }
 
+// Контейнер для кнопок действий
 .actions {
   display: flex;
   gap: 16px;
   margin-bottom: 20px;
+  flex-wrap: wrap; // Позволяет кнопкам переноситься на новую строку
+
+  // Адаптивная верстка для мобильных устройств
+  @media (max-width: 600px) {
+    justify-content: stretch;
+    
+    button {
+      flex: 1; // Кнопки занимают всю доступную ширину
+    }
+  }
 }
 
+// Отступ между карточками
 mat-card {
   margin-bottom: 20px;
 }
 
-.spacer {
-  flex: 1;
+// Стили для элементов списка
+mat-list-item {
+  display: flex !important; // Переопределяем стандартные стили Material
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px !important;
+  height: auto !important; // Позволяет элементу расширяться по содержимому
+  gap: 16px;
+
+  // Выравнивание вложенных элементов
+  > span, > div {
+    display: flex;
+    align-items: center;
+  }
 }
 
+// Стили для отображения даты
 .date {
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.54); // Серый цвет для второстепенной информации
   font-size: 14px;
+  white-space: nowrap; // Предотвращает перенос даты
 }
 
+// Стили для записи о приеме пищи
 .meal-record {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+  min-width: 0; // Предотвращает переполнение flex-контейнера
   
   .meal-details {
     font-size: 14px;
     color: rgba(0, 0, 0, 0.54);
+    margin-top: 4px;
   }
 }
 
-mat-list-item {
-  height: auto !important;
-  padding: 16px 0;
-} 
+// Стили для строки с значением и датой (сахар и инсулин)
+.record-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+
+  .value {
+    font-weight: 500; // Полужирный шрифт для значений
+  }
+}
+
+// Стили для строки с информацией о приеме пищи
+.meal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 16px;
+
+  .meal-info {
+    flex: 1;
+    min-width: 0; // Предотвращает переполнение
+    
+    .description {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+  }
+}
