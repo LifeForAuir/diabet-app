@@ -17,6 +17,7 @@ import { Dish, Ingredient, IngredientWithWeight, MealRecord, DishWithWeight } fr
 import { BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { IngredientDialogComponent } from '../ingredient-dialog/ingredient-dialog.component';
+import { DishDialogComponent } from '../dish-dialog/dish-dialog.component';
 
 interface MealTotals {
   weight: number;
@@ -223,6 +224,19 @@ export class MealDialogComponent {
         };
         this.selectedIngredients.push(ingredientWithWeight);
         this.updateTotals();
+      }
+    });
+  }
+
+  openNewDishDialog(): void {
+    const dialogRef = this.dialog.open(DishDialogComponent, {
+      width: '600px',
+      data: { savedIngredients: this.savedIngredients }
+    });
+
+    dialogRef.afterClosed().subscribe((newDish: Dish) => {
+      if (newDish) {
+        this.savedDishes.push(newDish);
       }
     });
   }

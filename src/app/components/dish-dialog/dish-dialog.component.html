@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>Добавить новое блюдо</h2>
+<mat-dialog-content>
+  <form [formGroup]="dishForm">
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Название блюда</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row nutrients">
+      <mat-form-field appearance="fill">
+        <mat-label>Белки</mat-label>
+        <input matInput type="number" formControlName="proteins" min="0" max="100">
+        <span matSuffix>г/100г</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Жиры</mat-label>
+        <input matInput type="number" formControlName="fats" min="0" max="100">
+        <span matSuffix>г/100г</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Углеводы</mat-label>
+        <input matInput type="number" formControlName="carbs" min="0" max="100">
+        <span matSuffix>г/100г</span>
+      </mat-form-field>
+    </div>
+
+    <div class="ingredients-container">
+      <div class="ingredient-selection">
+        <mat-form-field appearance="fill">
+          <mat-label>Выберите ингредиент</mat-label>
+          <mat-select (selectionChange)="onIngredientSelected($event)">
+            <mat-option *ngFor="let ingredient of savedIngredients" [value]="ingredient">
+              {{ingredient.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="selected-ingredients">
+        <mat-chip-set>
+          <mat-chip *ngFor="let ingredient of selectedIngredients" (removed)="removeIngredient(ingredient)">
+            <div class="ingredient-chip">
+              <span>{{ingredient.name}}</span>
+              <mat-form-field class="weight-input">
+                <input matInput type="number" [value]="ingredient.weight" 
+                       (change)="updateIngredientWeight(ingredient, $event)" min="1">
+                <span matSuffix>г</span>
+              </mat-form-field>
+            </div>
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Отмена</button>
+  <button mat-raised-button color="primary" 
+          (click)="onSubmit()" 
+          [disabled]="!dishForm.valid || !selectedIngredients.length">
+    Сохранить
+  </button>
+</mat-dialog-actions> 
