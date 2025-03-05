@@ -18,76 +18,49 @@
     </button>
   </div>
 
-  <!-- Карточка с историей замеров сахара -->
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>История замеров сахара</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <!-- Список замеров сахара -->
-        <mat-list-item *ngFor="let record of glucoseRecords">
-          <div class="record-row">
-            <span class="value">{{ record.value }} ммоль/л</span>
-            <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
-          </div>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+  <app-card title="История замеров сахара" [items]="glucoseRecords">
+    <ng-template #itemTemplate let-record>
+      <div class="record-row">
+        <span class="value">{{ record.value }} ммоль/л</span>
+        <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+      </div>
+    </ng-template>
+  </app-card>
 
-  <!-- Карточка с историей приемов пищи -->
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>История приёмов пищи</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <!-- Список приемов пищи -->
-        <mat-list-item *ngFor="let record of mealRecords">
-          <div class="meal-row">
-            <div class="meal-info">
-              <div class="dishes" *ngIf="record.dishes.length > 0">
-                <strong>Блюда:</strong>
-                <span *ngFor="let dish of record.dishes; last as isLast">
-                  {{ dish.name }}{{ !isLast ? ', ' : '' }}
-                </span>
-              </div>
-              <div class="ingredients" *ngIf="record.ingredients.length > 0">
-                <strong>Ингредиенты:</strong>
-                <span *ngFor="let ingredient of record.ingredients; last as isLast">
-                  {{ ingredient.name }}{{ !isLast ? ', ' : '' }}
-                </span>
-              </div>
-              <div class="meal-details">
-                Б: {{ record.totalProteins }}г, 
-                Ж: {{ record.totalFats }}г, 
-                У: {{ record.totalCarbohydrates }}г
-                ({{ record.breadUnits }} ХЕ)
-              </div>
-            </div>
-            <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+  <app-card title="История приёмов пищи" [items]="mealRecords">
+    <ng-template #itemTemplate let-record>
+      <div class="meal-row">
+        <div class="meal-info">
+          <div class="dishes" *ngIf="record.dishes.length > 0">
+            <strong>Блюда:</strong>
+            <span *ngFor="let dish of record.dishes; last as isLast">
+              {{ dish.name }}{{ !isLast ? ', ' : '' }}
+            </span>
           </div>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+          <div class="ingredients" *ngIf="record.ingredients.length > 0">
+            <strong>Ингредиенты:</strong>
+            <span *ngFor="let ingredient of record.ingredients; last as isLast">
+              {{ ingredient.name }}{{ !isLast ? ', ' : '' }}
+            </span>
+          </div>
+          <div class="meal-details">
+            Б: {{ record.totalProteins }}г, 
+            Ж: {{ record.totalFats }}г, 
+            У: {{ record.totalCarbohydrates }}г
+            ({{ record.breadUnits }} ХЕ)
+          </div>
+        </div>
+        <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+      </div>
+    </ng-template>
+  </app-card>
 
-  <!-- Карточка с историей инъекций инсулина -->
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>История инъекций инсулина</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <!-- Список инъекций инсулина -->
-        <mat-list-item *ngFor="let record of insulinRecords">
-          <div class="record-row">
-            <span class="value">{{ record.units }} ЕД</span>
-            <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
-          </div>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+  <app-card title="История инъекций инсулина" [items]="insulinRecords">
+    <ng-template #itemTemplate let-record>
+      <div class="record-row">
+        <span class="value">{{ record.units }} ЕД</span>
+        <span class="date">{{ record.datetime | date:'dd.MM.yyyy HH:mm' }}</span>
+      </div>
+    </ng-template>
+  </app-card>
 </div> 

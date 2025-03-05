@@ -10,43 +10,29 @@
     </button>
   </div>
 
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Сохранённые блюда</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item *ngFor="let dish of dishes">
-          <div class="dish-row">
+  <app-card title="Сохранённые блюда" [items]="dishes">
+    <ng-template #itemTemplate let-dish>
+        <div class="dish-row">
             <span class="name">{{ dish.name }}</span>
             <span class="details">
-              Б: {{ dish.totalProteins }}г, 
-              Ж: {{ dish.totalFats }}г, 
-              У: {{ dish.totalCarbohydrates }}г
+                Б: {{ dish.totalProteins }}г, 
+                Ж: {{ dish.totalFats }}г, 
+                У: {{ dish.totalCarbohydrates }}г
             </span>
-          </div>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+        </div>
+    </ng-template>
+  </app-card>
 
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Сохранённые ингредиенты</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item *ngFor="let ingredient of ingredients">
-          <div class="ingredient-row">
+  <app-card title="Сохранённые ингредиенты" [items]="ingredients">
+    <ng-template #itemTemplate let-ingredient>
+        <div class="ingredient-row">
             <span class="name">{{ ingredient.name }}</span>
             <span class="details">
-              Б: {{ ingredient.proteins }}г, 
-              Ж: {{ ingredient.fats }}г, 
-              У: {{ ingredient.carbohydrates }}г
+                Б: {{ ingredient.proteins }}г, 
+                Ж: {{ ingredient.fats }}г, 
+                У: {{ ingredient.carbohydrates }}г
             </span>
-          </div>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+        </div>
+    </ng-template>
+  </app-card>
 </div> 

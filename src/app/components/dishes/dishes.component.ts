@@ -9,6 +9,7 @@ import { DishDialogComponent } from '../dish-dialog/dish-dialog.component';
 import { DiabetesService } from '../../services/diabetes.service';
 import { Dish, Ingredient } from '../../interfaces/user.interface';
 import { IngredientDialogComponent } from '../ingredient-dialog/ingredient-dialog.component';
+import { CardComponent } from '../shared/card/card.component';
 
 @Component({
   selector: 'app-dishes',
@@ -21,7 +22,8 @@ import { IngredientDialogComponent } from '../ingredient-dialog/ingredient-dialo
     MatIconModule,
     MatDialogModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    CardComponent
   ]
 })
 export class DishesComponent {
@@ -66,4 +68,4 @@ export class DishesComponent {
       }
     });
   }
-} 
+}

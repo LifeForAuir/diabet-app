@@ -10,6 +10,7 @@ import { GlucoseRecord, MealRecord, InsulinRecord } from '../../interfaces/user.
 import { GlucoseDialogComponent } from '../glucose-dialog/glucose-dialog.component';
 import { MealDialogComponent } from '../meal-dialog/meal-dialog.component';
 import { InsulinDialogComponent } from '../insulin-dialog/insulin-dialog.component';
+import { CardComponent } from '../shared/card/card.component';
 
 @Component({
   selector: 'app-history',
@@ -25,7 +26,8 @@ import { InsulinDialogComponent } from '../insulin-dialog/insulin-dialog.compone
     MatDialogModule,
     GlucoseDialogComponent,
     MealDialogComponent,
-    InsulinDialogComponent
+    InsulinDialogComponent,
+    CardComponent
   ]
 })
 export class HistoryComponent implements OnInit {
