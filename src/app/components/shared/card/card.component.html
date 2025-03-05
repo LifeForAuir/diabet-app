@@ -3,11 +3,14 @@
     <mat-card-title>{{ title }}</mat-card-title>
   </mat-card-header>
   <mat-card-content [class]="contentClass">
-    <mat-list class="card-list" *ngIf="items.length > 0">
-      <mat-list-item *ngFor="let item of items">
+    <mat-list class="card-list" *ngIf="visibleItems.length > 0">
+      <mat-list-item *ngFor="let item of visibleItems">
         <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
       </mat-list-item>
     </mat-list>
     <ng-content></ng-content>
   </mat-card-content>
+  <mat-card-actions *ngIf="hasMoreItems" align="end">
+    <button mat-button (click)="loadMore()">Показать ещё</button>
+  </mat-card-actions>
 </mat-card> 

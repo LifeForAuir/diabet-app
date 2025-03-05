@@ -1,5 +1,28 @@
 mat-card {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+mat-card-content {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
+mat-list-item.mat-list-item {
+  height: auto;
+  padding: 8px 0;
+  
+  .mat-list-item-content {
+    height: auto !important;
+    padding: 8px 16px;
+  }
+}
+
+mat-card-actions {
+  padding: 16px;
 }
 
 .card-list mat-list-item {
