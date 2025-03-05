@@ -64,7 +64,7 @@ export class DishDialogComponent {
   }
 
   onSubmit(): void {
-    if (this.dishForm.valid && this.selectedIngredients.length > 0) {
+    if (this.dishForm.valid) {
       const { name, proteins, fats, carbs } = this.dishForm.value;
       
       const newDish: Dish = {

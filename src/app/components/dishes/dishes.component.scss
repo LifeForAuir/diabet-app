@@ -1,0 +1,35 @@
+.dishes-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.actions {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.dish-row, .ingredient-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+
+  .name {
+    font-weight: 500;
+  }
+
+  .details {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.9em;
+  }
+} 
