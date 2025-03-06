@@ -39,10 +39,19 @@ export interface DishWithWeight extends Dish {
   weight: number;
 }
 
+export interface CustomPart {
+  id: string;
+  weight: number;
+  proteins: number;    // на 100г
+  fats: number;       // на 100г
+  carbohydrates: number; // на 100г
+}
+
 export interface MealRecord {
   id: string;
   dishes: DishWithWeight[];
   ingredients: IngredientWithWeight[];
+  customParts: CustomPart[];
   totalWeight: number;
   totalProteins: number;
   totalFats: number;

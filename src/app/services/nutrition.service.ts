@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Dish, Ingredient, IngredientWithWeight, DishWithWeight } from '../interfaces/user.interface';
+import { Dish, Ingredient, IngredientWithWeight, DishWithWeight, CustomPart } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,20 @@ export class NutritionService {
     };
   }
 
-  calculateTotalNutrients(dishes: DishWithWeight[], ingredients: IngredientWithWeight[]): { 
+  calculateCustomPartNutrients(part: CustomPart): { proteins: number, fats: number, carbs: number } {
+    const multiplier = part.weight / 100;
+    return {
+      proteins: Number((part.proteins * multiplier).toFixed(1)),
+      fats: Number((part.fats * multiplier).toFixed(1)),
+      carbs: Number((part.carbohydrates * multiplier).toFixed(1))
+    };
+  }
+
+  calculateTotalNutrients(
+    dishes: DishWithWeight[], 
+    ingredients: IngredientWithWeight[],
+    customParts: CustomPart[]
+  ): { 
     weight: number, 
     proteins: number, 
     fats: number, 
@@ -60,6 +73,14 @@ export class NutritionService {
     ingredients.forEach(ingredient => {
       const nutrients = this.calculateIngredientNutrients(ingredient);
       totals.weight += ingredient.weight;
+      totals.proteins += nutrients.proteins;
+      totals.fats += nutrients.fats;
+      totals.carbs += nutrients.carbs;
+    });
+
+    customParts.forEach(part => {
+      const nutrients = this.calculateCustomPartNutrients(part);
+      totals.weight += part.weight;
       totals.proteins += nutrients.proteins;
       totals.fats += nutrients.fats;
       totals.carbs += nutrients.carbs;

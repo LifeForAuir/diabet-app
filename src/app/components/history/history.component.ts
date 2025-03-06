@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -37,7 +37,8 @@ export class HistoryComponent implements OnInit {
 
   constructor(
     private diabetesService: DiabetesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +75,13 @@ export class HistoryComponent implements OnInit {
   }
 
   openMealDialog(): void {
-    const dialogRef = this.dialog.open(MealDialogComponent);
+    const dialogRef = this.dialog.open(MealDialogComponent, {
+      disableClose: true,
+      autoFocus: false
+    });
+    
+    this.cdr.detectChanges();
+    
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadData();

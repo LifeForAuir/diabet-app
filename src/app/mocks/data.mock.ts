@@ -88,7 +88,7 @@ export const MOCK_MEAL_RECORDS: MealRecord[] = [
     dishes: [
       {
         ...MOCK_DISHES[0],
-        weight: 240  // Вес порции равен totalWeight
+        weight: 240
       }
     ],
     ingredients: [
@@ -97,6 +97,7 @@ export const MOCK_MEAL_RECORDS: MealRecord[] = [
         weight: 50
       }
     ],
+    customParts: [],
     totalWeight: 290,
     totalProteins: 46,
     totalFats: 12.2,
@@ -117,11 +118,39 @@ export const MOCK_MEAL_RECORDS: MealRecord[] = [
       }
     ],
     ingredients: [],
+    customParts: [],
     totalWeight: 395,
     totalProteins: 47.4,
     totalFats: 17.2,
     totalCarbohydrates: 65.8,
     breadUnits: 5.5,
     datetime: new Date('2024-03-20T13:00:00')
+  },
+  {
+    id: 'a9f0f895-f51e-4b8e-b132-9c5f1a72c847',
+    dishes: [],
+    ingredients: [],
+    customParts: [
+      {
+        id: 'b9f0f895-f51e-4b8e-b132-9c5f1a72c848',
+        weight: 200,
+        proteins: 15,
+        fats: 8,
+        carbohydrates: 30
+      },
+      {
+        id: 'c9f0f895-f51e-4b8e-b132-9c5f1a72c849',
+        weight: 100,
+        proteins: 5,
+        fats: 2,
+        carbohydrates: 10
+      }
+    ],
+    totalWeight: 300,
+    totalProteins: 35,
+    totalFats: 18,
+    totalCarbohydrates: 70,
+    breadUnits: 5.8,
+    datetime: new Date('2024-03-20T18:00:00')
   }
 ];

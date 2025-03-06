@@ -1,90 +1,44 @@
 <h2 mat-dialog-title>Добавить приём пищи</h2>
 <mat-dialog-content>
-  <form [formGroup]="mealForm">
-    <mat-tab-group>
-      <mat-tab label="Блюда">
-        <div class="dishes-container">
-          <div class="dish-selection">
-            <mat-form-field appearance="fill">
-              <mat-label>Вес (г)</mat-label>
-              <input matInput type="number" formControlName="dishWeight" min="1">
-            </mat-form-field>
+  <ng-container *ngIf="savedDishes.length > 0 && savedIngredients.length > 0; else loading">
+    <form [formGroup]="mealForm">
+      <mat-tab-group>
+        <mat-tab label="Блюда">
+          <div class="dishes-container">
+            <div class="dish-selection">
+              <mat-form-field appearance="fill">
+                <mat-label>Вес (г)</mat-label>
+                <input matInput type="number" formControlName="dishWeight" min="1">
+              </mat-form-field>
 
-            <mat-form-field appearance="fill">
-              <mat-label>Выберите блюдо</mat-label>
-              <mat-select (selectionChange)="onDishSelected($event)">
-                <mat-option *ngFor="let dish of savedDishes" [value]="dish">
-                  {{dish.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Выберите блюдо</mat-label>
+                <mat-select (selectionChange)="onDishSelected($event)">
+                  <mat-option *ngFor="let dish of savedDishes" [value]="dish">
+                    {{dish.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 
-            <button mat-raised-button color="accent" (click)="openNewDishDialog()">
-              <mat-icon>add</mat-icon>
-              Новое блюдо
-            </button>
-          </div>
-          
-          <mat-chip-set>
-            <mat-chip *ngFor="let dish of selectedDishes" (removed)="removeDish(dish)">
-              <div class="dish-chip">
-                <span>{{dish.name}}</span>
-                <mat-form-field class="weight-input">
-                  <input matInput type="number" [value]="dish.weight" 
-                         (change)="updateDishWeight(dish, $event)" min="1">
-                  <span matSuffix>г</span>
-                </mat-form-field>
-                <div class="nutrient-info">
-                  (Б:{{nutritionService.calculateDishNutrients(dish).proteins}}
-                  Ж:{{nutritionService.calculateDishNutrients(dish).fats}}
-                  У:{{nutritionService.calculateDishNutrients(dish).carbs}})
-                </div>
-              </div>
-              <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
+              <button mat-raised-button color="accent" (click)="openNewDishDialog()">
+                <mat-icon>add</mat-icon>
+                Новое блюдо
               </button>
-            </mat-chip>
-          </mat-chip-set>
-        </div>
-      </mat-tab>
+            </div>
 
-      <mat-tab label="Ингредиенты">
-        <div class="ingredients-container">
-          <div class="ingredient-selection">
-            <mat-form-field appearance="fill">
-              <mat-label>Вес (г)</mat-label>
-              <input matInput type="number" formControlName="ingredientWeight" min="1">
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Выберите ингредиент</mat-label>
-              <mat-select (selectionChange)="onIngredientSelected($event)">
-                <mat-option *ngFor="let ingredient of savedIngredients" [value]="ingredient">
-                  {{ingredient.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <button mat-raised-button color="accent" (click)="openNewIngredientDialog()">
-              <mat-icon>add</mat-icon>
-              Новый ингредиент
-            </button>
-          </div>
-
-          <div class="selected-ingredients">
             <mat-chip-set>
-              <mat-chip *ngFor="let ingredient of selectedIngredients" (removed)="removeIngredient(ingredient)">
-                <div class="ingredient-chip">
-                  <span>{{ingredient.name}}</span>
+              <mat-chip *ngFor="let dish of selectedDishes" (removed)="removeDish(dish)">
+                <div class="dish-chip">
+                  <span>{{dish.name}}</span>
                   <mat-form-field class="weight-input">
-                    <input matInput type="number" [value]="ingredient.weight" 
-                           (change)="updateIngredientWeight(ingredient, $event)" min="1">
+                    <input matInput type="number" [value]="dish.weight"
+                           (change)="updateDishWeight(dish, $event)" min="1">
                     <span matSuffix>г</span>
                   </mat-form-field>
                   <div class="nutrient-info">
-                    (Б:{{nutritionService.calculateIngredientNutrients(ingredient).proteins}}
-                    Ж:{{nutritionService.calculateIngredientNutrients(ingredient).fats}}
-                    У:{{nutritionService.calculateIngredientNutrients(ingredient).carbs}})
+                    (Б:{{nutritionService.calculateDishNutrients(dish).proteins}}
+                    Ж:{{nutritionService.calculateDishNutrients(dish).fats}}
+                    У:{{nutritionService.calculateDishNutrients(dish).carbs}})
                   </div>
                 </div>
                 <button matChipRemove>
@@ -93,33 +47,133 @@
               </mat-chip>
             </mat-chip-set>
           </div>
+        </mat-tab>
+
+        <mat-tab label="Ингредиенты">
+          <div class="ingredients-container">
+            <div class="ingredient-selection">
+              <mat-form-field appearance="fill">
+                <mat-label>Вес (г)</mat-label>
+                <input matInput type="number" formControlName="ingredientWeight" min="1">
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Выберите ингредиент</mat-label>
+                <mat-select (selectionChange)="onIngredientSelected($event)">
+                  <mat-option *ngFor="let ingredient of savedIngredients" [value]="ingredient">
+                    {{ingredient.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-raised-button color="accent" (click)="openNewIngredientDialog()">
+                <mat-icon>add</mat-icon>
+                Новый ингредиент
+              </button>
+            </div>
+
+            <div class="selected-ingredients">
+              <mat-chip-set>
+                <mat-chip *ngFor="let ingredient of selectedIngredients" (removed)="removeIngredient(ingredient)">
+                  <div class="ingredient-chip">
+                    <span>{{ingredient.name}}</span>
+                    <mat-form-field class="weight-input">
+                      <input matInput type="number" [value]="ingredient.weight"
+                             (change)="updateIngredientWeight(ingredient, $event)" min="1">
+                      <span matSuffix>г</span>
+                    </mat-form-field>
+                    <div class="nutrient-info">
+                      (Б:{{nutritionService.calculateIngredientNutrients(ingredient).proteins}}
+                      Ж:{{nutritionService.calculateIngredientNutrients(ingredient).fats}}
+                      У:{{nutritionService.calculateIngredientNutrients(ingredient).carbs}})
+                    </div>
+                  </div>
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Пользовательские части">
+          <div class="custom-parts-container">
+            <div class="custom-part-form">
+              <mat-form-field appearance="fill">
+                <mat-label>Вес (г)</mat-label>
+                <input matInput type="number" formControlName="customPartWeight" min="1">
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Белки (г/100г)</mat-label>
+                <input matInput type="number" formControlName="customPartProteins" min="0" max="100">
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Жиры (г/100г)</mat-label>
+                <input matInput type="number" formControlName="customPartFats" min="0" max="100">
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Углеводы (г/100г)</mat-label>
+                <input matInput type="number" formControlName="customPartCarbs" min="0" max="100">
+              </mat-form-field>
+
+              <button mat-raised-button color="accent" (click)="addCustomPart()">
+                Добавить
+              </button>
+            </div>
+
+            <mat-chip-set>
+              <mat-chip *ngFor="let part of selectedCustomParts" (removed)="removeCustomPart(part)">
+                <div class="custom-part-chip">
+                  <span>{{part.weight}}г</span>
+                  <span>(Б:{{part.proteins}} Ж:{{part.fats}} У:{{part.carbohydrates}})</span>
+                </div>
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <ng-container *ngIf="totals$ | async as totals; else loading">
+        <div class="totals">
+          <h3>Итого:</h3>
+          <p>Общая масса: {{totals.weight}}г</p>
+          <p>Белки: {{totals.proteins}}г</p>
+          <p>Жиры: {{totals.fats}}г</p>
+          <p>Углеводы: {{totals.carbs}}г</p>
+          <p>ХЕ: {{totals.breadUnits}}</p>
         </div>
-      </mat-tab>
-    </mat-tab-group>
-
-    <div class="totals">
-      <h3>Итого:</h3>
-      <ng-container *ngIf="totals$ | async as totals">
-        <p>Общая масса: {{totals.weight}}г</p>
-        <p>Белки: {{totals.proteins}}г</p>
-        <p>Жиры: {{totals.fats}}г</p>
-        <p>Углеводы: {{totals.carbs}}г</p>
-        <p>ХЕ: {{totals.breadUnits}}</p>
       </ng-container>
-    </div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Дата и время</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="datetime">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </form>
+      <ng-template #loading>
+        <div class="loading">Загрузка...</div>
+      </ng-template>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Дата и время</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="datetime">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="loading-spinner">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </ng-template>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Отмена</button>
-  <button mat-raised-button color="primary" (click)="onSubmit()" 
+  <button mat-raised-button color="primary" (click)="onSubmit()"
           [disabled]="!mealForm.valid || (!selectedDishes.length && !selectedIngredients.length)">
     Сохранить
   </button>
