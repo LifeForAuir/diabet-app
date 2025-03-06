@@ -284,4 +284,18 @@ export class MealDialogComponent implements AfterViewInit {
     this.selectedCustomParts = this.selectedCustomParts.filter(p => p.id !== part.id);
     this.updateTotals();
   }
+
+  updateCustomPartWeight(part: CustomPart, event: any): void {
+    const newWeight = Number(event.target.value);
+    if (newWeight > 0) {
+      const index = this.selectedCustomParts.findIndex(p => p.id === part.id);
+      if (index !== -1) {
+        this.selectedCustomParts[index] = {
+          ...part,
+          weight: newWeight
+        };
+        this.updateTotals();
+      }
+    }
+  }
 } 
