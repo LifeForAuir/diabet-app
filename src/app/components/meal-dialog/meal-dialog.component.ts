@@ -20,6 +20,7 @@ import { IngredientDialogComponent } from '../ingredient-dialog/ingredient-dialo
 import { DishDialogComponent } from '../dish-dialog/dish-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ChipItemComponent } from '../chip-item/chip-item.component';
 
 interface MealTotals {
   weight: number;
@@ -49,7 +50,8 @@ interface MealTotals {
     MatIconModule,
     DragDropModule,
     FormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ChipItemComponent
   ],
 })
 export class MealDialogComponent implements AfterViewInit {

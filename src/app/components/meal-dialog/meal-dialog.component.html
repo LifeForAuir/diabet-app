@@ -27,24 +27,13 @@
             </div>
 
             <mat-chip-set>
-              <mat-chip *ngFor="let dish of selectedDishes" (removed)="removeDish(dish)">
-                <div class="dish-chip">
-                  <span>{{dish.name}}</span>
-                  <mat-form-field class="weight-input">
-                    <input matInput type="number" [value]="dish.weight"
-                           (change)="updateDishWeight(dish, $event)" min="1">
-                    <span matSuffix>г</span>
-                  </mat-form-field>
-                  <div class="nutrient-info">
-                    (Б:{{nutritionService.calculateDishNutrients(dish).proteins}}
-                    Ж:{{nutritionService.calculateDishNutrients(dish).fats}}
-                    У:{{nutritionService.calculateDishNutrients(dish).carbs}})
-                  </div>
-                </div>
-                <button matChipRemove>
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
+              <app-chip-item *ngFor="let dish of selectedDishes"
+                [label]="dish.name"
+                [weight]="dish.weight"
+                [nutrients]="nutritionService.calculateDishNutrients(dish)"
+                (weightChange)="updateDishWeight(dish, $event)"
+                (remove)="removeDish(dish)">
+              </app-chip-item>
             </mat-chip-set>
           </div>
         </mat-tab>
@@ -72,28 +61,15 @@
               </button>
             </div>
 
-            <div class="selected-ingredients">
-              <mat-chip-set>
-                <mat-chip *ngFor="let ingredient of selectedIngredients" (removed)="removeIngredient(ingredient)">
-                  <div class="ingredient-chip">
-                    <span>{{ingredient.name}}</span>
-                    <mat-form-field class="weight-input">
-                      <input matInput type="number" [value]="ingredient.weight"
-                             (change)="updateIngredientWeight(ingredient, $event)" min="1">
-                      <span matSuffix>г</span>
-                    </mat-form-field>
-                    <div class="nutrient-info">
-                      (Б:{{nutritionService.calculateIngredientNutrients(ingredient).proteins}}
-                      Ж:{{nutritionService.calculateIngredientNutrients(ingredient).fats}}
-                      У:{{nutritionService.calculateIngredientNutrients(ingredient).carbs}})
-                    </div>
-                  </div>
-                  <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-              </mat-chip-set>
-            </div>
+            <mat-chip-set>
+              <app-chip-item *ngFor="let ingredient of selectedIngredients"
+                [label]="ingredient.name"
+                [weight]="ingredient.weight"
+                [nutrients]="nutritionService.calculateIngredientNutrients(ingredient)"
+                (weightChange)="updateIngredientWeight(ingredient, $event)"
+                (remove)="removeIngredient(ingredient)">
+              </app-chip-item>
+            </mat-chip-set>
           </div>
         </mat-tab>
 
@@ -126,19 +102,13 @@
             </div>
 
             <mat-chip-set>
-              <mat-chip *ngFor="let part of selectedCustomParts" (removed)="removeCustomPart(part)">
-                <div class="custom-part-chip">
-                  <mat-form-field class="weight-input">
-                    <input matInput type="number" [value]="part.weight"
-                           (change)="updateCustomPartWeight(part, $event)" min="1">
-                    <span matSuffix>г</span>
-                  </mat-form-field>
-                  <span>(Б:{{part.proteins}} Ж:{{part.fats}} У:{{part.carbohydrates}})</span>
-                </div>
-                <button matChipRemove>
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
+              <app-chip-item *ngFor="let part of selectedCustomParts"
+                [label]="'Пользовательская часть'"
+                [weight]="part.weight"
+                [nutrients]="{ proteins: part.proteins, fats: part.fats, carbs: part.carbohydrates }"
+                (weightChange)="updateCustomPartWeight(part, $event)"
+                (remove)="removeCustomPart(part)">
+              </app-chip-item>
             </mat-chip-set>
           </div>
         </mat-tab>
